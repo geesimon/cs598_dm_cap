@@ -143,10 +143,10 @@ def main(save_sample, save_categories):
             #count = count + 1
 
         with open ("review_sample_100000.txt", 'w') as f:
-            f.write('\n'.join(my_sample_v2).encode('ascii','ignore') )
+            f.write('\n'.join(my_sample_v2))
             
         with open ("review_ratings_100000.txt", 'w') as f:
-            f.write('\n'.join(sample_ratings).encode('ascii','ignore') )
+            f.write('\n'.join(sample_ratings))
             
 
 def sim_matrix():

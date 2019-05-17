@@ -1,6 +1,10 @@
+reviews/
+reviews-idx/
+*.bin
 meta/
 yelp_dataset_challenge_academic_dataset/
 .DS_Store
 *.txt
 *.pickle
 metapy/
+.ipynb_checkpoints/
