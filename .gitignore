@@ -1,6 +1,6 @@
 meta/
 yelp_dataset_challenge_academic_dataset/
 .DS_Store
-.vscode/
 *.txt
 *.pickle
+metapy/
