@@ -11,7 +11,7 @@
             "program": "${file}",
             "console": "integratedTerminal",
             "cwd": "${fileDirname}",
-            "args": ["--sample"]
+            "args": ["--sample", "--cuisine"]
         },
         {
             "name": "Python: Remote Attach",

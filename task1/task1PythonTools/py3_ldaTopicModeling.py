@@ -6,6 +6,19 @@ from gensim import matutils
 from sklearn.feature_extraction.text import TfidfVectorizer
 from time import time
 from nltk.tokenize import sent_tokenize
+from nltk.stem import WordNetLemmatizer, SnowballStemmer
+
+#nltk.download('wordnet')
+stemmer = SnowballStemmer('english')
+def lemmatize_stemming(text):
+    return stemmer.stem(WordNetLemmatizer().lemmatize(text, pos='v'))
+
+def preprocess(text):
+    result = []
+    for token in gensim.utils.simple_preprocess(text):
+        if token not in gensim.parsing.preprocessing.STOPWORDS and len(token) > 3:
+            result.append(lemmatize_stemming(token))
+    return result
 
 def main(K, numfeatures, sample_file, num_display_words, outputfile):
     K_clusters = K

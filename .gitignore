@@ -8,3 +8,9 @@ yelp_dataset_challenge_academic_dataset/
 *.pickle
 metapy/
 .ipynb_checkpoints/
+ceeaus.tar.gz
+ceeaus/
+chinese_reviews_neg-idx/
+chinese_reviews_neg/
+chinese_reviews_pos-idx/
+chinese_reviews_pos/

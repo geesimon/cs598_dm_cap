@@ -2,6 +2,9 @@
 	"folders": [
 		{
 			"path": "task1"
+		},
+		{
+			"path": "yelp_dataset_challenge_academic_dataset"
 		}
 	],
 	"settings": {}

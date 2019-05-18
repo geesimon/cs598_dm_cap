@@ -15,6 +15,7 @@ path2files="../../yelp_dataset_challenge_academic_dataset/"
 path2buisness=path2files+"yelp_academic_dataset_business.json"
 path2reviews=path2files+"yelp_academic_dataset_review.json"
 
+
 def main(save_sample, save_categories):
     categories = set([])
     restaurant_ids = set([])
@@ -51,10 +52,12 @@ def main(save_sample, save_categories):
     with open('data_cat2rid.pickle', 'wb') as f:
         pickle.dump(cat2rid,f)
 
+    rest_review = []
     with open (path2reviews, 'r') as f:
         for line in f.readlines():
             review_json = json.loads(line)
             if review_json['business_id'] in restaurant_ids:
+                rest_review.append(review_json['text'].replace("\n", " ").strip())
                 if review_json['business_id'] in rest2revID:
                     rest2revID[ review_json['business_id'] ].append(review_json['review_id'])
                 else:
@@ -62,6 +65,14 @@ def main(save_sample, save_categories):
 
     with open('data_rest2revID.pickle', 'wb') as f:
         pickle.dump(rest2revID,f)
+
+    #Save the First 100000 resturant reviews
+    sample_size = 100000
+    random.seed(19720816)
+    sample_text = [rest_review[i] for i in sorted(random.sample(range(len(rest_review)), sample_size))]
+    
+    # with open ("rest_review_sample_100000.txt", 'wb') as f:
+    #     f.write('\n'.join(sample_text).encode('ascii','ignore'))
 
     nz_count = 0
     valid_cats = []
@@ -83,7 +94,9 @@ def main(save_sample, save_categories):
     sample_rid2cat={}
     sample_size = 10 #len(valid_cats) # This specifies how many cuisines you would like to save 
                                   # if this process takes too long you can change it to something smaller like 5, 6 ...
-    cat_sample = random.sample(valid_cats, sample_size)
+    #cat_sample = random.sample(valid_cats, sample_size)
+    cat_sample = ['Chinese', 'Japanese', 'American (Traditional)', 'Mexican', 'Italian','Seafood','Beer, Wine & Spirits',
+                    'Indian','Thai', 'French']
     for cat in cat_sample:
         for rid in cat2rid[cat]:
             if rid in rest2revID:
@@ -97,6 +110,8 @@ def main(save_sample, save_categories):
     print("reading from reviews file...")
     #ensure categories is a directory
     sample_cat2reviews={}
+    sample_cat2reviews_pos={}
+    sample_cat2reviews_neg={}
     sample_cat2ratings={}
     num_reviews = 0
     with open (path2reviews, 'r') as f:
@@ -106,19 +121,35 @@ def main(save_sample, save_categories):
             if rid in sample_rid2cat:
                 for rcat in sample_rid2cat [ rid ]:
                     num_reviews = num_reviews + 1
+                    _stars = review_json['stars']
+                    _review = review_json['text'].replace("\n", " ").strip()
                     if rcat in sample_cat2reviews:
-                        sample_cat2reviews [ rcat ].append(review_json['text'])
-                        sample_cat2ratings [ rcat ].append( str(review_json['stars']) )
+                        sample_cat2reviews [ rcat ].append(_review)
+                        sample_cat2ratings [ rcat ].append( str(_stars) )
                     else:
-                        sample_cat2reviews [ rcat ] = [review_json['text']]
-                        sample_cat2ratings [ rcat ] = [ str(review_json['stars']) ]
+                        sample_cat2reviews [ rcat ] = [_review]
+                        sample_cat2ratings [ rcat ] = [ str(_stars) ]
+                    
+                    if _stars > 3:
+                        _sample = sample_cat2reviews_pos
+                    elif _stars < 3:
+                        _sample = sample_cat2reviews_neg
+                    if rcat in _sample:
+                        _sample[rcat].append(_review)
+                    else:
+                        _sample[rcat] = [_review]
+                    
     
     if save_categories:
         print("saving categories")
         #save categories
         for cat in sample_cat2reviews:
-            with open ('categories/' + cat.replace('/', '-').replace(" ", "_") + ".txt" , 'w') as f:
-                f.write(u'\n'.join(sample_cat2reviews[cat]).encode('utf-8').strip())
+            with open ('categories/' + cat.replace('/', '-').replace(" ", "_") + ".txt" , 'wb') as f:
+                f.write('\n'.join(sample_cat2reviews[cat]).encode('ascii','ignore'))
+            with open ('categories/' + cat.replace('/', '-').replace(" ", "_") + "_pos.txt" , 'wb') as f:
+                f.write('\n'.join(sample_cat2reviews_pos[cat]).encode('ascii','ignore'))
+            with open ('categories/' + cat.replace('/', '-').replace(" ", "_") + "_neg.txt" , 'wb') as f:
+                f.write('\n'.join(sample_cat2reviews_neg[cat]).encode('ascii','ignore'))
 
     if save_sample:  
         print("sampling restaurant reviews")
