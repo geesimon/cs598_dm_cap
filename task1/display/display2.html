@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="https://d3js.org/d3.v4.min.js"></script>
-<script src="https://d3js.org/d3-hierarchy.v1.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+<script src="d3.v4.min.js"></script>
+<script src="d3-hierarchy.v1.min.js"></script>
+<script src="jquery.min.js"></script>
 </head>
 <body>
 
@@ -31,8 +31,7 @@
 
     //d3.json("flare.json", function(data){
     d3.json("../compare.json", function(data){
-        const root = tree(d3.hierarchy(data)
-        .sort((a, b) => (a.height - b.height) || a.data.name.localeCompare(b.data.name)));
+        const root = tree(d3.hierarchy(data));
 
         const svg = d3.select("svg")
                     .style("width", "100%")
@@ -69,7 +68,7 @@
         node.append("circle")
             .attr("fill", d => d.children ? "#555" : "#999")
             .attr("r", d => d.children ? 2.5 : 4)
-            .attr("fill", d => d.children ? "black" : "red")
+            .attr("fill", d => d.children ? "black" : d.data.color)
             .attr("fill-opacity", d => d.children ? 1 : d.data.value)
             //.attr("r", 2.5);
         
@@ -79,6 +78,7 @@
             .attr("text-anchor", d => d.x < Math.PI === !d.children ? "start" : "end")
             .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
             .text(d => d.data.name)
+            .attr("fill", d => d.data.new_word ? "red" : "black")
             .filter(d => d.children)
             .clone(true).lower()
             .attr("stroke", "white");
