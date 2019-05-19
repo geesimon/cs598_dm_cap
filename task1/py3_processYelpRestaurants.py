@@ -11,7 +11,7 @@ from nltk.tokenize import sent_tokenize
 import glob
 import argparse
 import os
-path2files="../../yelp_dataset_challenge_academic_dataset/"
+path2files="../yelp_dataset_challenge_academic_dataset/"
 path2buisness=path2files+"yelp_academic_dataset_business.json"
 path2reviews=path2files+"yelp_academic_dataset_review.json"
 
