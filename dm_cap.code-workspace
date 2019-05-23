@@ -5,6 +5,9 @@
 		},
 		{
 			"path": "yelp_dataset_challenge_academic_dataset"
+		},
+		{
+			"path": "task2"
 		}
 	],
 	"settings": {}
