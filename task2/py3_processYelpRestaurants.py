@@ -153,8 +153,8 @@ def main(save_sample, save_categories):
             #    my_sample.append(rev.replace("\n", " ").strip())
             #count = count + 1
 
-        with open ("review_sample_100000.txt", 'w') as f:
-            f.write('\n'.join(my_sample_v2))
+        with open ("review_sample_100000.txt", 'wb') as f:
+            f.write('\n'.join(my_sample_v2).encode('ascii','ignore'))
             
         with open ("review_ratings_100000.txt", 'w') as f:
             f.write('\n'.join(sample_ratings))
