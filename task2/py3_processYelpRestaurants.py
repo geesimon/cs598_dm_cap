@@ -14,6 +14,7 @@ import os
 path2files="../yelp_dataset_challenge_academic_dataset/"
 path2buisness=path2files+"yelp_academic_dataset_business.json"
 path2reviews=path2files+"yelp_academic_dataset_review.json"
+path2reviewdump = "reviews/reviews.dat"
 
 
 def main(save_sample, save_categories):
@@ -106,25 +107,26 @@ def main(save_sample, save_categories):
     #ensure categories is a directory
     sample_cat2reviews={}
     sample_cat2ratings={}
-    num_reviews = 0
+    num_reviews = 0  
     with open (path2reviews, 'r') as f:
-        for line in f.readlines():
-            review_json = json.loads(line)
-            rid = review_json['business_id']
-            if rid in sample_rid2cat:
-                for rcat in sample_rid2cat [ rid ]:
-                    num_reviews = num_reviews + 1
+        with open(path2reviewdump, 'w') as f_r:
+            for line in f.readlines():
+                review_json = json.loads(line)
+                rid = review_json['business_id']
+                if rid in sample_rid2cat:
+                    num_reviews += 1
                     _stars = review_json['stars']
                     _review = review_json['text'].replace("\n", "").replace("\r", "").strip()
-                    if rcat in sample_cat2reviews:
-                        sample_cat2reviews [ rcat ].append(_review)
-                        sample_cat2ratings [ rcat ].append( str(_stars) )
-                    else:
-                        sample_cat2reviews [ rcat ] = [_review]
-                        sample_cat2ratings [ rcat ] = [ str(_stars) ]
+                    f_r.write(_review + "\n")
+                    for rcat in sample_rid2cat [ rid ]:
+                        if rcat in sample_cat2reviews:
+                            sample_cat2reviews [ rcat ].append(_review)
+                            sample_cat2ratings [ rcat ].append( str(_stars) )
+                        else:
+                            sample_cat2reviews [ rcat ] = [_review]
+                            sample_cat2ratings [ rcat ] = [ str(_stars) ]
                     
-    
-    if save_categories:
+        if save_categories:
         print("saving categories")
         #save categories
         for cat in sample_cat2reviews:
@@ -175,13 +177,14 @@ def sim_matrix():
     
     text = []
     c_names = []
-    cat_list = glob.glob ("categories/*")
+    # cat_list = glob.glob ("categories/*")
+    cat_list = glob.glob("cuisines/*")
     cat_size = len(cat_list)
     if cat_size < 1:
         print("you need to generate the cuisines files 'categories' folder first")
         return
     
-    sample_size = min(30, cat_size)
+    sample_size = min(50, cat_size)
     cat_sample = sorted( random.sample(range(cat_size), sample_size) )
     #print (cat_sample)
     count = 0
