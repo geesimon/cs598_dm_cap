@@ -1,8 +1,44 @@
 <!DOCTYPE html>
 <meta charset="utf-8">
-<body>
+<head>
     <script src="d3.v3.min.js"></script>
     <script src="d3.layout.cloud.js"></script>
+    <style>
+        .styled-select {
+            overflow: hidden;
+            height: 74px;
+            /* float: left; */
+            width: 500px;
+            margin-right: 10px;
+            background: url(9ldb8j.png) no-repeat right center #131313;
+        }
+
+        .styled-select select {
+            font-size: 34px;
+            border-radius: 0;
+            border: none;
+            background: transparent;
+            width: 380px;
+            overflow: hidden;
+            padding-top: 15px;
+            height: 70px;
+            text-indent: 10px;
+            color: #ffffff;
+            -webkit-appearance: none;
+        }
+
+        .styled-select option.service-small {
+            font-size: 14px;
+            padding: 5px;
+            background: #5c5c5c;
+        }
+    </style>
+</head>
+<body>
+    <div class="styled-select">
+        <select class="service-area" id="cuisine">
+        </select>
+    </div>
     <script>
     // Encapsulate the word cloud functionality
     function wordCloud(selector) {
@@ -123,6 +159,20 @@ d3.json(data_file, function(miserables) {
         nodes[link.target].link_values.push(link.value);
     });
 
+    d3.select("#cuisine")
+        .selectAll("option")
+        .data(nodes).enter()
+        .append("option")
+        .attr("value", function(d){
+            return d.index;
+        })
+        .attr("class", "service-small")
+        .text(function(d){return d.name;});
+    
+    d3.select("#cuisine").on("change", function(){
+        showNewWords(myWordCloud, nodes[this.value].link_words, nodes[this.value].link_values);
+    });
+
     //Start cycling through the demo data
     showNewWords(myWordCloud, nodes[0].link_words, nodes[0].link_values);
 })
@@ -136,6 +186,8 @@ function clickword (p) {
         }
     })
      
+    d3.select("#cuisine").property("value", index);
+
     showNewWords(myWordCloud, nodes[index].link_words, nodes[index].link_values);
 }
 </script>
