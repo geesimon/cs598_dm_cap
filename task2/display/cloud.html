@@ -40,6 +40,8 @@
         </select>
     </div>
     <script>
+    var map_width = 960,
+        map_height = 480;
     // Encapsulate the word cloud functionality
     function wordCloud(selector) {
 
@@ -47,10 +49,10 @@
 
         //Construct the word cloud's SVG element
         var svg = d3.select(selector).append("svg")
-            .attr("width", 960)
-            .attr("height", 600)
+            .attr("width", map_width)
+            .attr("height", map_height)
             .append("g")
-            .attr("transform", "translate(480,300)");
+            .attr("transform", "translate("+ map_width / 2 + "," + map_height / 2 + ")");
 
 
         //Draw the word cloud
@@ -97,7 +99,7 @@
             //The outside world will need to call this function, so make it part
             // of the wordCloud return value.
             update: function(words) {
-                d3.layout.cloud().size([960, 600])
+                d3.layout.cloud().size([map_width, map_height])
                     .words(words)
                     .padding(2)
                     //.rotate(function() { return ~~(Math.random() * 2) * 90; })
