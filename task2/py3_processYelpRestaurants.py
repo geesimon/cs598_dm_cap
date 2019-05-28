@@ -107,34 +107,36 @@ def main(save_sample, save_categories):
     #ensure categories is a directory
     sample_cat2reviews={}
     sample_cat2ratings={}
-    num_reviews = 0  
+    num_reviews = 0
+    all_rest_reviews = []
     with open (path2reviews, 'r') as f:
-        with open(path2reviewdump, 'w') as f_r:
-            for line in f.readlines():
-                review_json = json.loads(line)
-                rid = review_json['business_id']
-                if rid in sample_rid2cat:
-                    num_reviews += 1
-                    _stars = review_json['stars']
-                    _review = review_json['text'].replace("\n", "").replace("\r", "").strip()
-                    f_r.write(_review + "\n")
-                    for rcat in sample_rid2cat [ rid ]:
-                        if rcat in sample_cat2reviews:
-                            sample_cat2reviews [ rcat ].append(_review)
-                            sample_cat2ratings [ rcat ].append( str(_stars) )
-                        else:
-                            sample_cat2reviews [ rcat ] = [_review]
-                            sample_cat2ratings [ rcat ] = [ str(_stars) ]
-                    
+        for line in f.readlines():
+            review_json = json.loads(line)
+            rid = review_json['business_id']
+            if rid in sample_rid2cat:
+                num_reviews += 1
+                _stars = review_json['stars']
+                _review = review_json['text'].replace("\n", "").replace("\r", "").strip()
+                all_rest_reviews.append(_review)
+                for rcat in sample_rid2cat [ rid ]:
+                    if rcat in sample_cat2reviews:
+                        sample_cat2reviews [ rcat ].append(_review)
+                        sample_cat2ratings [ rcat ].append( str(_stars) )
+                    else:
+                        sample_cat2reviews [ rcat ] = [_review]
+                        sample_cat2ratings [ rcat ] = [ str(_stars) ]
+                
         if save_categories:
-        print("saving categories")
-        #save categories
-        for cat in sample_cat2reviews:
-            with open ('categories/' + cat.replace('/', '-').replace(" ", "_") + ".txt" , 'wb') as f:
-                f.write('\n'.join(sample_cat2reviews[cat]).encode('ascii','ignore'))
+            print("saving categories")
+            #save categories
+            for cat in sample_cat2reviews:
+                with open ('categories/' + cat.replace('/', '-').replace(" ", "_") + ".txt" , 'wb') as f:
+                    f.write('\n'.join(sample_cat2reviews[cat]).encode('ascii','ignore'))
 
     if save_sample:  
         print("sampling restaurant reviews")
+        with open(path2reviewdump, 'wb') as f:
+            f.write('\n'.join(all_rest_reviews).encode('ascii','ignore'))
         #save sample for restaurant reviews
         sample_size = min(100000, num_reviews)
         rev_sample = random.sample(range(num_reviews), sample_size)
@@ -155,11 +157,11 @@ def main(save_sample, save_categories):
             #    my_sample.append(rev.replace("\n", " ").strip())
             #count = count + 1
 
-        with open ("review_sample_100000.txt", 'wb') as f:
-            f.write('\n'.join(my_sample_v2).encode('ascii','ignore'))
+        # with open ("review_sample_100000.txt", 'wb') as f:
+        #     f.write('\n'.join(my_sample_v2).encode('ascii','ignore'))
             
-        with open ("review_ratings_100000.txt", 'w') as f:
-            f.write('\n'.join(sample_ratings))
+        # with open ("review_ratings_100000.txt", 'w') as f:
+        #     f.write('\n'.join(sample_ratings))
             
 
 def sim_matrix():
