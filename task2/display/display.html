@@ -55,7 +55,7 @@
         //z = d3.scaleLinear().domain([0, 4]).clamp(true),
         //z = d3.scaleLinear().domain([0, 10]).range([0.3, 1.0]).clamp(true),
         z = d3.scaleLinear().range([0, 1.0]).clamp(true),
-        c = d3.scaleOrdinal(d3.schemeCategory10);
+        c = d3.scaleOrdinal(d3.schemeCategory20);
 
     var svg = d3.select("body").append("svg")
         .attr("width", width + margin.left + margin.right + 50)
@@ -105,7 +105,8 @@
 
     // The default sort order.
     //x.domain(orders.name);
-    x.domain(orders.group);
+    //x.domain(orders.group);
+    x.domain(d3.range(n))
 
     svg.append("rect")
         .attr("class", "background")
@@ -156,6 +157,7 @@
             .attr("height", x.bandwidth())
             .style("fill-opacity", function(d) { return z(d.z); })
             .style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? c(nodes[d.x].group) : null; })
+            //.style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? d3.schemeCategory20[0] : d3.schemeCategory20[0]; })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout);
     } 
