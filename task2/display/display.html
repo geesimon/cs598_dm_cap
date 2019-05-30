@@ -156,8 +156,8 @@
             .attr("width", x.bandwidth())
             .attr("height", x.bandwidth())
             .style("fill-opacity", function(d) { return z(d.z); })
-            .style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? c(nodes[d.x].group) : null; })
-            //.style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? d3.schemeCategory20[0] : d3.schemeCategory20[0]; })
+            //.style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? c(nodes[d.x].group) : null; })
+            .style("fill", function(d) { return nodes[d.x].group == nodes[d.y].group ? d3.schemeCategory10[nodes[d.x].group] :d3.schemeCategory20[18]; })
             .on("mouseover", mouseover)
             .on("mouseout", mouseout);
     } 
