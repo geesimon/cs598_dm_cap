@@ -64,8 +64,8 @@ def main(save_sample, save_categories):
                 else:
                     rest2revID[ review_json['business_id'] ] = [ review_json['review_id'] ]
 
-    with open('data_rest2revID.pickle', 'wb') as f:
-        pickle.dump(rest2revID,f)
+    # with open('data_rest2revID.pickle', 'wb') as f:
+    #     pickle.dump(rest2revID,f)
 
     #Save the First 100000 resturant reviews
     sample_size = 100000
@@ -74,6 +74,9 @@ def main(save_sample, save_categories):
     
     with open ("rest_review_sample_100000.txt", 'wb') as f:
         f.write('\n'.join(sample_text).encode('ascii','ignore'))
+
+    with open ("rest_reviews.txt", 'wb') as f:
+        f.write('\n'.join(rest_review).encode('ascii','ignore'))
 
     nz_count = 0
     valid_cats = []
