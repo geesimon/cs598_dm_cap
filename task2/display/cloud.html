@@ -135,6 +135,7 @@ const data_file = urlParams.get('data');
 
 d3.json(data_file, function(miserables) {
     nodes = miserables.nodes;
+    n = nodes.length;
 
     // Compute index per node.
     nodes.forEach(function(node, i) {
@@ -160,10 +161,15 @@ d3.json(data_file, function(miserables) {
         nodes[link.target].link_words.push(nodes[link.source].name);
         nodes[link.target].link_values.push(link.value);
     });
-
+    
+    sorted_nodes = [];
+    d3.range(n).sort(function(a, b) { return d3.ascending(nodes[a].name, nodes[b].name);}).forEach(function(sorted_i, i){
+        sorted_nodes[i] = nodes[sorted_i]
+    })
     d3.select("#cuisine")
         .selectAll("option")
-        .data(nodes).enter()
+        .data(sorted_nodes)
+        .enter()
         .append("option")
         .attr("value", function(d){
             return d.index;
