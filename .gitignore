@@ -1,3 +1,7 @@
+task1/*.txt
+task2/*.txt
+task1/*/*.txt
+task2/*/*.txt
 AutoPhrase/
 SegPhrase/
 bert/
@@ -9,7 +13,6 @@ reviews-idx/
 meta/
 yelp_dataset_challenge_academic_dataset/
 .DS_Store
-*.txt
 *.pickle
 metapy/
 .ipynb_checkpoints/
