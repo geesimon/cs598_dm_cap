@@ -51,9 +51,11 @@ echo -ne "Detected Language: $LANGUAGE\033[0K\n"
 TOKENIZED_STOPWORDS=tmp/tokenized_stopwords.txt
 TOKENIZED_ALL=tmp/tokenized_all.txt
 TOKENIZED_QUALITY=tmp/tokenized_quality.txt
-STOPWORDS=data/$LANGUAGE/stopwords.txt
-ALL_WIKI_ENTITIES=data/$LANGUAGE/wiki_all.txt
-QUALITY_WIKI_ENTITIES=data/$LANGUAGE/wiki_quality.txt
+TOKENIZED_CHINESE_DIESHES_QUALITY=tmp/tokenized_chinese_dishes_quality.txt
+STOPWORDS=cuisine_data/$LANGUAGE/stopwords.txt
+ALL_WIKI_ENTITIES=cuisine_data/$LANGUAGE/wiki_all.txt
+QUALITY_WIKI_ENTITIES=cuisine_data/$LANGUAGE/wiki.chinese.dish.quality.txt
+# QUALITY_CHINESE_DISHES_ENTITIES=cuisine_data/$LANGUAGE/chinese_dishes_quality.txt
 LABEL_FILE=tmp/labels.txt
 if [ $FIRST_RUN -eq 1 ]; then
     echo -ne "Current step: Tokenizing stopword file...\033[0K\r"
@@ -61,7 +63,9 @@ if [ $FIRST_RUN -eq 1 ]; then
     echo -ne "Current step: Tokenizing wikipedia phrases...\033[0K\n"
     java $TOKENIZER -m test -i $ALL_WIKI_ENTITIES -o $TOKENIZED_ALL -t $TOKEN_MAPPING -c N -thread $THREAD
     java $TOKENIZER -m test -i $QUALITY_WIKI_ENTITIES -o $TOKENIZED_QUALITY -t $TOKEN_MAPPING -c N -thread $THREAD
-fi  
+    # echo -ne "Current step: Tokenizing chinese cuisines phrases...\033[0K\n"
+    # java $TOKENIZER -m test -i $QUALITY_CHINESE_DISHES_ENTITIES -o $TOKENIZED_CHINESE_DIESHES_QUALITY -t $TOKEN_MAPPING -c N -thread $THREAD
+fi
 ### END Tokenization ###
 
 if [[ $RAW_LABEL_FILE = *[!\ ]* ]]; then
@@ -88,7 +92,7 @@ if [ $ENABLE_POS_TAGGING -eq 1 ]; then
     time ./bin/segphrase_train \
         --pos_tag \
         --thread $THREAD \
-        --pos_prune data/BAD_POS_TAGS.txt \
+        --pos_prune cuisine_data/BAD_POS_TAGS.txt \
         --label_method $LABEL_METHOD \
 		--label $LABEL_FILE \
         --max_positives $MAX_POSITIVES \
