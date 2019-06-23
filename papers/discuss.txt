@@ -1,0 +1,5 @@
+https://mediaspace.illinois.edu/media/t/0_m3unmw6s: Question: I asked 2 questions were asked on how semantic dependencies and aspect templates were built
+
+https://mediaspace.illinois.edu/media/t/0_ih4v73v1: Comments: I gave comments on using sentence embeding to improve description similarity measurement. Also, suggestted to give some real examples in the presentation.
+
+That's all available presentations for my session.
