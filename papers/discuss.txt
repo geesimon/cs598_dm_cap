@@ -4,7 +4,7 @@ https://mediaspace.illinois.edu/media/t/0_ih4v73v1: Comments: I gave comments on
 
 https://mediaspace.illinois.edu/media/t/0_zjox06so: Question: I asked question regarding how effective this approach is compared with other malware detection approaches.
 
-https://mediaspace.illinois.edu/media/t/1_2htkzqj4
+https://mediaspace.illinois.edu/media/t/1_2htkzqj4: Question: I asked question regarding how to extend this framework to support other source of information.
 
 
 Very good presentation and the presenter can clearly explain the ideas using his own language. The losing points are caused by:
