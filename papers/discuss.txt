@@ -2,4 +2,12 @@ https://mediaspace.illinois.edu/media/t/0_m3unmw6s: Question: I asked 2 question
 
 https://mediaspace.illinois.edu/media/t/0_ih4v73v1: Comments: I gave comments on using sentence embeding to improve description similarity measurement. Also, suggestted to give some real examples in the presentation.
 
-That's all available presentations for my session.
+https://mediaspace.illinois.edu/media/t/0_zjox06so: Question: I asked question regarding how effective this approach is compared with other malware detection approaches.
+
+https://mediaspace.illinois.edu/media/t/1_2htkzqj4
+
+
+Very good presentation and the presenter can clearly explain the ideas using his own language. The losing points are caused by:
+1. Presentation is too short (16:38)
+2. I don't see the major contribution highlighted in the presentation
+3. Presenter does give his own spoken opinion but no slide was given thus make his own opinion not very obvious.
