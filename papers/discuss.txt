@@ -1,6 +1,6 @@
 https://mediaspace.illinois.edu/media/t/0_m3unmw6s: Question: I asked 2 questions were asked on how semantic dependencies and aspect templates were built
 
-https://mediaspace.illinois.edu/media/t/0_ih4v73v1: Comments: I gave comments on using sentence embeding to improve description similarity measurement. Also, suggestted to give some real examples in the presentation.
+https://mediaspace.illinois.edu/media/t/0_ih4v73v1: Comments: I gave comments on using sentence embedding to improve description similarity measurement. Also, suggested to give some real examples in the presentation.
 
 https://mediaspace.illinois.edu/media/t/0_zjox06so: Question: I asked question regarding how effective this approach is compared with other malware detection approaches.
 
@@ -11,3 +11,11 @@ Very good presentation and the presenter can clearly explain the ideas using his
 1. Presentation is too short (16:38)
 2. I don't see the major contribution highlighted in the presentation
 3. Presenter does give his own spoken opinion but no slide was given thus make his own opinion not very obvious.
+
+Mining Android App Descriptions for Permissions Requirements Recommendation
+https://mediaspace.illinois.edu/media/t/0_zqkwan5r:
+
+Great work on explaining the technical details. The slides are very well organized. Given the technical depth of this paper, I guess a real sample could help audience to understand the topic better. I have some questions regarding this presentation.
+
+1. The paper use BM25 to do description similarity check. I'm wondering whether we can use the modern deep learning based approach such as ELMO for text embedding to achieve better results.
+2. I guess CLAP would need to provide a good UI for the developer in order to make it useful. But not sure they do have such capability.
