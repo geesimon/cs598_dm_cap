@@ -19,3 +19,15 @@ Great work on explaining the technical details. The slides are very well organiz
 
 1. The paper use BM25 to do description similarity check. I'm wondering whether we can use the modern deep learning based approach such as ELMO for text embedding to achieve better results.
 2. I guess CLAP would need to provide a good UI for the developer in order to make it useful. But not sure they do have such capability.
+
+
+
+Checking App Behavior Against App Descriptions
+https://mediaspace.illinois.edu/media/t/0_zjox06so
+In the slide "malware detection evaluation", only 56% of malware are correctly detected. It seems the recall of this approach is quite low. Any idea on how effective this approach is compared with others?
+
+What parts of your app are loved by users
+https://mediaspace.illinois.edu/media/t/0_m3unmw6s
+Hi Ayan, very good work on explaining the paper. I have 2 questions:
+1. What approach is used to construct the semantic dependencies? 
+2. I see some aspect templates in the presentation, how these templates were built?
