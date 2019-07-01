@@ -1,11 +1,13 @@
-https://mediaspace.illinois.edu/media/t/0_m3unmw6s: Question: I asked 2 questions were asked on how semantic dependencies and aspect templates were built
+What parts of your app are loved by users: https://mediaspace.illinois.edu/media/t/0_m3unmw6s: Question: I asked 2 questions were asked on how semantic dependencies and aspect templates were built
 
-https://mediaspace.illinois.edu/media/t/0_ih4v73v1: Comments: I gave comments on using sentence embedding to improve description similarity measurement. Also, suggested to give some real examples in the presentation.
+Mining Android App Descriptions for Permissions Requirements Recommendation: https://mediaspace.illinois.edu/media/t/0_zqkwan5r: Comments/Questions: I gave comments on using sentence embedding to improve description similarity measurement. Also, asked whether CLAP has UI to make this work more useful.
 
-https://mediaspace.illinois.edu/media/t/0_zjox06so: Question: I asked question regarding how effective this approach is compared with other malware detection approaches.
+Checking App Behavior Against App Descriptions: https://mediaspace.illinois.edu/media/t/0_zjox06so: Question: I asked question regarding how effective this approach is compared with other malware detection approaches.
 
-https://mediaspace.illinois.edu/media/t/1_2htkzqj4: Question: I asked question regarding how to extend this framework to support other source of information.
+App Analysis to Identify Emerging Issues: https://mediaspace.illinois.edu/media/t/1_2htkzqj4: Question: I asked question regarding how to extend this framework to support other source of information.
 
+
+https://mediaspace.illinois.edu/media/t/0_zjox06so
 
 Very good presentation and the presenter can clearly explain the ideas using his own language. The losing points are caused by:
 1. Presentation is too short (16:38)
