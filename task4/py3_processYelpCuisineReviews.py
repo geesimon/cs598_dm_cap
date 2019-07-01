@@ -67,7 +67,7 @@ def main():
             for review_id in rest2revID[rest_id]:
                 cat_reviews.append(rest_review[review_id])
         with open ('categories/' + cat.replace('/', '-').replace(" ", "_") + ".pkl" , 'wb') as f:
-            pickle.dump(cat_reviews)
+            pickle.dump(cat_reviews, f)
 
 if __name__=="__main__":
     main()
