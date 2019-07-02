@@ -1,6 +1,5 @@
 import pickle
-import re
-
+import nltk
 
 def splitParagraphIntoSentences(paragraph):
     import re
@@ -34,11 +33,6 @@ for _dish in dishes:
     for _review in cuisine_reviews:
         _count = _review['text'].count(_dish)
         if _count > 0:
-            s = splitParagraphIntoSentences(_review['text'])
-            pattern = "\.?(?P<sentence>.*?" + _dish + ".*?)\."
-            match = re.search(pattern, _review['text'])
-            if match != None:
-                print(match.group("sentence"))
             _total_count += _count
             if _review['business_id'] not in _dish2rest:
                 _dish2rest.add(_review['business_id'])
