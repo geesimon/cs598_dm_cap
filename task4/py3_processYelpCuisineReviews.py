@@ -17,7 +17,6 @@ def main():
         for line in f.readlines():
             business_json = json.loads(line)
             bjc = business_json['categories']
-            #cities.add(business_json['city'])
             if r in bjc:
                 if len(bjc) > 1:
                     restaurant_ids.add(business_json['business_id'])
@@ -39,6 +38,7 @@ def main():
             review_json['text'] = review_json['text'].replace("\t", " ")\
                                                         .replace("\n", "")\
                                                         .replace("\r", "")\
+                                                        .lower()\
                                                         .strip()
             
             if review_json['business_id'] in restaurant_ids:
