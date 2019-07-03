@@ -2,6 +2,15 @@ import pickle
 import nltk
 from nltk.sentiment.vader import SentimentIntensityAnalyzer
 from tqdm import tqdm
+import json
+
+rest_id2name = {}
+path2files="../yelp_dataset_challenge_academic_dataset/"
+path2buisness=path2files+"yelp_academic_dataset_business.json"
+with open (path2buisness, 'r') as f:
+    for line in f.readlines():
+        business_json = json.loads(line)
+        rest_id2name[business_json['business_id']] = business_json['name']
 
 MAX_DISH_COUNT = 100
 
