@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="d3.v4.min.js"></script>
+<style>
+    svg {
+        font: 10px sans-serif;
+    }
+    .background{
+      fill: #eee;
+    }
+    .bar {
+        fill: orange;
+    }
+
+    .bar:hover {
+        fill: orangered ;
+    }
+
+    .x.axis path {
+        display: none;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+    var margin = {top: 40, right: 40, bottom: 30, left: 40},
+        width = 960 - margin.left - margin.right,
+        height = 600 - margin.top - margin.bottom;
+
+    var formatPercent = d3.format(".0%");
+
+    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+        y = d3.scaleLinear().range([height, 0]),
+        c = d3.scaleOrdinal(d3.schemeCategory20);
+
+    var svg = d3.select("body").append("svg")
+                .attr("width", width + margin.left + margin.right)
+                .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const data_file = urlParams.get('data');
+
+    d3.json(data_file, function(json_data) {
+        json_data = json_data.slice(0, 60);
+        var total_items = json_data.length;
+        // Precompute the orders.
+        var orders = {
+            rest: d3.range(total_items).sort(function(a, b) { return json_data[a][1].rest_count - json_data[b][1].rest_count;}),
+            review: d3.range(total_items).sort(function(a, b) { return json_data[a][1].review_count - json_data[b][1].review_count;})
+        };
+
+        // The default sort order.
+        x.domain(json_data.map(function(d) { return d[0]; }));
+        y.domain([0, d3.max(json_data, function(d) { return d[1].rest_count; })]);
+
+        var bar = svg.selectAll(".bar")
+                    .data(json_data)
+                    .enter().append("g")
+                    .attr("transform", function(d) { return "translate(" + x(d[0]) 
+                                                            + "," 
+                                                            + y(d[1].rest_count) + ")"; });
+            
+            bar.append("rect")
+                        .attr("class", "bar")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("width", x.bandwidth())
+                        .attr("height", function(d) { return height - y(d[1].rest_count); });
+
+            bar.append("text")
+                        .attr("x", x.bandwidth()/2)
+                        .attr("y", 0)
+                        .attr("dy", ".32em")
+                        .attr("text-anchor", "start")
+                        .attr("transform", "rotate(-60)")
+                        .text(function(d) { return d[0];});
+
+    });
+</script>
+<svg></svg>
+</body>
+
+</html>
