@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+<head>
+<!-- <script src="d3.v4.min.js"></script> -->
+<script src="d3.v5.min.js"></script>
+<style>
+    svg {
+        font: 10px sans-serif;
+    }
+    .background{
+      fill: #eee;
+    }
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
+    .bar {
+        /* fill: orange; */
+    }
+
+    .bar:hover {
+        fill: black ;
+    }
+
+    .x.axis path {
+        display: none;
+    }
+    .styled-select {
+            overflow: hidden;
+            height: 74px;
+            /* float: left; */
+            width: 960px;
+            margin-right: 10px;
+            background: url(9ldb8j.png) no-repeat right center #131313;
+    }
+
+    .styled-select select {
+        font-size: 34px;
+        border-radius: 0;
+        border: none;
+        background: transparent;
+        width: 960px;
+        overflow: hidden;
+        padding-top: 15px;
+        height: 70px;
+        text-indent: 10px;
+        color: #ffffff;
+        -webkit-appearance: none;
+    }
+
+    .styled-select option.service-small {
+        font-size: 14px;
+        padding: 5px;
+        background: #5c5c5c;
+    }
+
+    div.tooltip {	
+        position: absolute;			
+        text-align: center;			
+        width: 100px;					
+        height: 34px;					
+        padding: 2px;				
+        font: 12px sans-serif;		
+        background: black;	
+        color: white;
+        border: 0px;		
+        border-radius: 8px;			
+        pointer-events: none;			
+    }
+  </style>
+</head>
+<body>
+    <div class="styled-select">
+        <select class="service-area" id="dish">
+        </select>
+    </div>
+<script>
+    var tooltip = d3.select("body").append("div")	
+            .attr("class", "tooltip")				
+            .style("opacity", 0);
+
+    var margin = {top: 140, right: 80, bottom: 30, left: 40},
+        width = 960 - margin.left - margin.right,
+        height = 700 - margin.top - margin.bottom;
+
+    var formatPercent = d3.format(".0%");
+
+    var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+        y = d3.scaleLinear().range([height, 0]);
+
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const data_file = urlParams.get('data');
+    const MAX_ITEM = 60
+
+    function getPolarity(rest2polarity, rest_name) {
+        for (var i = 0; i < rest2polarity.length; i++) {
+            if (rest2polarity[i][0] == rest_name) return rest2polarity[i][1]
+        }
+        return 0;
+    }
+
+    function getOccurence(rest2review_count, rest_name) {
+        for (var i = 0; i < rest2review_count.length; i++) {
+            if (rest2review_count[i][0] == rest_name) return rest2review_count[i][1]
+        }
+        return 0;
+    }
+
+    function showRest(json_data, dish_index) {
+        json_data = json_data[dish_index];
+        if (json_data[1].rest2score.length > MAX_ITEM) {
+            json_data[1].rest2score =  json_data[1].rest2score.slice(0, MAX_ITEM);
+        }            
+        x.domain(json_data[1].rest2score.map(function(d) { return d[0]; }));
+        y.domain([0, d3.max(json_data[1].rest2score, function(d) { return d[1]; })]);
+
+        d3.select("body svg").remove();
+        var svg = d3.select("body").append("svg")
+                    .attr("width", width + margin.left + margin.right)
+                    .attr("height", height + margin.top + margin.bottom)
+                .append("g")
+                    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var yAxis = d3.axisLeft(y);
+        svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+            .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .attr("fill", "black")
+                .style("text-anchor", "end")
+                .text("Score");
+
+        var bar = svg.selectAll(".bar")
+                    .data(json_data[1].rest2score)
+                    .enter().append("g")
+                    .attr("transform", function(d) { return "translate(" + x(d[0]) 
+                                                            + "," 
+                                                            + y(d[1]) + ")"; });
+            
+            bar.append("rect")
+                        .attr("class", "bar")
+                        .attr("x", 0)
+                        .attr("y", 0)
+                        .attr("width", x.bandwidth())
+                        .attr("height", function(d) { return height - y(d[1]); })
+                        .attr("fill", function(d){return d3.interpolateRdYlBu(1 - getPolarity(json_data[1].rest2polarity, d[0]));})
+                        .on("mouseover", mouseover)
+                        .on("mouseout", mouseout);
+
+            bar.append("text")
+                        .attr("x", x.bandwidth()/2)
+                        .attr("y", 0)
+                        .attr("dy", ".32em")
+                        .attr("text-anchor", "start")
+                        .attr("transform", "rotate(-60)")
+                        .text(function(d) { 
+                            return d[0];
+                            });
+        
+        function mouseover(p) {
+            tooltip.transition()
+                .duration(200)		
+                .style("opacity", .7);		
+            tooltip.html("<div>Polarity: "+getPolarity(json_data[1].rest2polarity, p[0]).toFixed(2) + "</div>"
+                        + "<div>Reviews: " + getOccurence(json_data[1].rest2review_count, p[0]) + "</div>")	
+                .style("left", (d3.event.pageX) + "px")		
+                .style("top", (d3.event.pageY - 28) + "px");	
+        }
+
+        function mouseout() {
+            tooltip.transition()
+                .duration(500)		
+                .style("opacity", 0);	
+        }
+    }
+
+    d3.json(data_file).then(function(json_data) {
+        if (json_data.length > MAX_ITEM) json_data = json_data.slice(0, MAX_ITEM);
+        var total_items = json_data.length;
+
+        d3.select("#dish")
+            .selectAll("option")
+            .data(json_data)
+            .enter()
+            .append("option")
+            .attr("value", function(d, i){
+                return i;
+            })
+        .attr("class", "service-small")
+        .text(function(d){return d[0];});
+        
+        d3.select("#dish").on("change", function(){
+            showRest(json_data, this.value);
+        });
+
+        showRest(json_data, 0);
+
+        // The default sort order.
+    });
+</script>
+</body>
+
+</html>

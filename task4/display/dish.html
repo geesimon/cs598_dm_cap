@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<script src="d3.v4.min.js"></script>
+<!-- <script src="d3.v4.min.js"></script> -->
+<script src="d3.v5.min.js"></script>
 <style>
     svg {
         font: 10px sans-serif;
@@ -9,8 +10,15 @@
     .background{
       fill: #eee;
     }
+    .axis path,
+    .axis line {
+        fill: none;
+        stroke: #000;
+        shape-rendering: crispEdges;
+    }
+
     .bar {
-        fill: orange;
+        /* fill: orange; */
     }
 
     .bar:hover {
@@ -25,15 +33,14 @@
 <body>
 
 <script>
-    var margin = {top: 40, right: 40, bottom: 30, left: 40},
+    var margin = {top: 100, right: 40, bottom: 30, left: 40},
         width = 960 - margin.left - margin.right,
-        height = 600 - margin.top - margin.bottom;
+        height = 700 - margin.top - margin.bottom;
 
     var formatPercent = d3.format(".0%");
 
     var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-        y = d3.scaleLinear().range([height, 0]),
-        c = d3.scaleOrdinal(d3.schemeCategory20);
+        y = d3.scaleLinear().range([height, 0]);
 
     var svg = d3.select("body").append("svg")
                 .attr("width", width + margin.left + margin.right)
@@ -43,9 +50,13 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     const data_file = urlParams.get('data');
+    const key_name = urlParams.get('key');
+    const count_key = key_name + "_count"
+    const polarity_key = key_name + "_polarity"
+    const MAX_ITEM = 60
 
-    d3.json(data_file, function(json_data) {
-        json_data = json_data.slice(0, 60);
+    d3.json(data_file).then(function(json_data) {
+        if (json_data.length > MAX_ITEM) json_data = json_data.slice(0, MAX_ITEM);
         var total_items = json_data.length;
         // Precompute the orders.
         var orders = {
@@ -55,21 +66,34 @@
 
         // The default sort order.
         x.domain(json_data.map(function(d) { return d[0]; }));
-        y.domain([0, d3.max(json_data, function(d) { return d[1].rest_count; })]);
+        y.domain([0, d3.max(json_data, function(d) { return d[1][count_key]; })]);
+
+        var yAxis = d3.axisLeft(y);
+        svg.append("g")
+                .attr("class", "y axis")
+                .call(yAxis)
+            .append("text")
+                .attr("transform", "rotate(-90)")
+                .attr("y", 6)
+                .attr("dy", ".71em")
+                .attr("fill", "black")
+                .style("text-anchor", "end")
+                .text("Number of Occurences");
 
         var bar = svg.selectAll(".bar")
                     .data(json_data)
                     .enter().append("g")
                     .attr("transform", function(d) { return "translate(" + x(d[0]) 
                                                             + "," 
-                                                            + y(d[1].rest_count) + ")"; });
+                                                            + y(d[1][count_key]) + ")"; });
             
             bar.append("rect")
                         .attr("class", "bar")
                         .attr("x", 0)
                         .attr("y", 0)
                         .attr("width", x.bandwidth())
-                        .attr("height", function(d) { return height - y(d[1].rest_count); });
+                        .attr("height", function(d) { return height - y(d[1][count_key]); })
+                        .attr("fill", function(d){return d3.interpolateRdYlBu(1 - d[1][polarity_key]);})
 
             bar.append("text")
                         .attr("x", x.bandwidth()/2)
@@ -77,11 +101,11 @@
                         .attr("dy", ".32em")
                         .attr("text-anchor", "start")
                         .attr("transform", "rotate(-60)")
-                        .text(function(d) { return d[0];});
-
+                        .text(function(d) { 
+                            return d[0] + " [" + d[1][polarity_key].toFixed(2) + "]";
+                            });            
     });
 </script>
-<svg></svg>
 </body>
 
 </html>
