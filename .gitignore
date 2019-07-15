@@ -1,4 +1,5 @@
-/data/*
+task6/data/*
+data/*
 categories/
 ~$*
 universal_sentence_encoder_large3/
