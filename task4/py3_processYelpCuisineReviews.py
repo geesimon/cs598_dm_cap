@@ -37,9 +37,9 @@ def main():
             review_json = json.loads(line)
             review_json['text'] = review_json['text'].replace("\t", " ")\
                                                         .replace("\n", "")\
-                                                        .replace("\r", "")\
-                                                        .lower()\
-                                                        .strip()
+                                                        .replace("\r", "")
+                                                        # .lower()\
+                                                        # .strip()
             
             if review_json['business_id'] in restaurant_ids:
                 rest_review[review_json['review_id']] = review_json
