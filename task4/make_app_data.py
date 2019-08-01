@@ -42,9 +42,9 @@ for _review in cuisine_reviews:
 for i, _id in enumerate(rest2info):
     rest2info[_id]['review_summary_gensim'] = summarize(concat_reviews[_id], word_count = 100)
     rest2info[_id]['review_summary_pytease'] = Summarize("chinese food and cuisine reviews", summarize(concat_reviews[_id]))
-    print(rest2info[_id]['review_summary_gensim'])
-    print('----------------------------------------------------')
-    print(rest2info[_id]['review_summary_pytease'])
+    # print(rest2info[_id]['review_summary_gensim'])
+    # print('----------------------------------------------------')
+    # print(rest2info[_id]['review_summary_pytease'])
     print('%d----------------------------------------------------'%(i))
 
 # for _id in rest2info:
