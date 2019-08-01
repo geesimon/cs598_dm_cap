@@ -1,3 +1,4 @@
+*.code-workspace
 categories_2/
 .vscode/
 /app/data/*
