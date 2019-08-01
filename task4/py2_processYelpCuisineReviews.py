@@ -48,7 +48,7 @@ def main():
                     rest2revID[review_json['business_id']] = [ review_json['review_id'] ]
 
     valid_cats = []
-    for i, cat in enumerate(cat2rid):
+    for _, cat in enumerate(cat2rid):
         cat_total_reviews = 0
         for rid in cat2rid[cat]:
             #number of reviews for each of restaurants
@@ -65,7 +65,7 @@ def main():
                 continue
             for review_id in rest2revID[rest_id]:
                 cat_reviews.append(rest_review[review_id])
-        with open ('categories/' + cat.replace('/', '-').replace(" ", "_") + ".pkl" , 'wb') as f:
+        with open ('categories_2/' + cat.replace('/', '-').replace(" ", "_") + ".pkl" , 'wb') as f:
             pickle.dump(cat_reviews, f)
 
 if __name__=="__main__":
