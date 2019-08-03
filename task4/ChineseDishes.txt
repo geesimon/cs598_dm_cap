@@ -72,13 +72,11 @@ banh mi
 green onion pancake
 general tso's chicken
 jade palace
-hong kong
 frog legs
 milk tea
 cha siu bao
 pho kim long
 crab ragoon
-hong kong style
 general tso
 big wong
 kobe beef
@@ -172,7 +170,6 @@ thai style noodle house
 choy sum
 ma po tofu
 chicken wings
-ha ha
 nail salon
 kung pow
 yellowtail sashimi
